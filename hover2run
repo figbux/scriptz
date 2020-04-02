@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Hover terminal window to run a command again, and again...
+# ./hover2run /bin/ls
+
+WID=$(xdotool getwindowfocus)
+ONCE=0
+
+while true
+do
+        if [ "$WID" == "$(xdotool getwindowfocus)" ] && [ $ONCE -eq "0" ]
+        then
+                $1
+                ONCE=1
+        fi
+
+        if [ "$WID" != "$(xdotool getwindowfocus)" ] && [ $ONCE -eq "1" ]
+        then
+                ONCE=0
+        fi
+
+        sleep 0.1 # leave some CPU power for other poor processes as well
+done
